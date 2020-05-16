@@ -1,0 +1,9 @@
+Introduction
+An intal is a non negative integer of arbitrary length, but in case of my implementation it has a limit of 1000 digits. Intal is stored as a null terminated string of ASCII format in a big endian format for convenience sake.
+
+The difference between this method of storing numbers and regular integers is the limit of storage. All integer datatypes have a limit within which the numbers must be present to store it in those datatypes. Intal is more like a custom datatype which can store data limitlessly and can include special characters with special meanings in order to maintain compression. Eg : We could use '1e07' as exponential raised to the power seven and have an internal conversion of it.
+
+Applications:
+
+
+Approaches:

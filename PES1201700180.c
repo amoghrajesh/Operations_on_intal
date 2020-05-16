@@ -294,19 +294,76 @@ void swap(char* str1,char* str2){
 }
 
 
+static void merge(char** arr, int l, int m, int r) 
+{ 
+    int i, j, k; 
+    int n1 = m - l +1 ; 
+    int n2 =  r - m; 
+    char L[n1][1001], R[n2][1001]; 
+
+    for (i = 0; i < n1; i++) 
+        strcpy(L[i],arr[l + i]); 
+    for (j = 0; j < n2; j++) 
+        strcpy(R[j],arr[m + 1+ j]); 
+    i = 0; // Initial index of first subarray 
+    j = 0; // Initial index of second subarray 
+    k = l; // Initial index of merged subarray 
+	
+    while (i < n1 && j < n2) 
+    { 
+        if (intal_compare(L[i],R[j])!=1) 
+        { 
+            strcpy(arr[k],L[i]); 
+            i++; 
+        } 
+        else
+        { 
+			strcpy(arr[k],R[j]); 
+            j++; 
+        } 
+        k++; 
+    } 
+  
+    /* Copy the remaining elements of L[], if there 
+       are any */
+    while (i < n1) 
+    { 
+        strcpy(arr[k],L[i]); 
+        i++; 
+        k++; 
+    } 
+  
+    /* Copy the remaining elements of R[], if there 
+       are any */
+    while (j < n2) 
+    { 
+        strcpy(arr[k],R[j]); 
+        j++; 
+        k++; 
+    } 
+} 
+
+
+
+static void mergeSort(char** arr,int l,int r)
+{
+	if(l<r){
+		int mid = l + (r-l)/2;
+		mergeSort(arr,l,mid);
+		mergeSort(arr,mid+1,r);
+		
+		merge(arr,l,mid,r);
+	}
+	
+	
+}
+
+
 void intal_sort(char **arr, int n)
 {
-	int min=0;
-	for(int i=0;i<n-1;i++){
-   		min= i; 
-        for (int j = i+1; j < n; j++){
-			if(intal_compare(arr[i],arr[j])==-1){
-				min=j;
-			} 
-		}
-		swap(arr[i],arr[min]);
-          
-	}
+	
+	mergeSort(arr,0,n);
+	
 }
 
 int intal_min(char **arr, int n){
@@ -389,7 +446,7 @@ int intal_binsearch(char **arr, int n, const char* key)
 	int r=n-1;
 	int mid=0;
 	int compare=0;
-	while(l<r){
+	while(l<=r){
 		mid = l +(r-l)/2;
 		compare=intal_compare(arr[mid],key);
 		if(compare==0){
@@ -519,8 +576,6 @@ char* intal_gcd(const char* intal1, const char* intal2)
 		a=b;
 		b=c;
 	}
-	free(b);
-	free(c);
 	return a;
 	
 	
@@ -735,7 +790,7 @@ result1 = intal_factorial(30);
 		free(result1);
 	}
 
-		result1 = intal_gcd(a[0], a[5]);
+	result1 = intal_gcd(a[0], a[5]);
 	if(!result1) {
 		printf("Test intal_gcd FAILED.\n");
 	} else {
@@ -746,6 +801,15 @@ result1 = intal_factorial(30);
 		}
 		free(result1);
 	}
+	
+	intal_sort(a, 10);
+	index1 = intal_binsearch(a, 10, "3");
+	if(1 == index1) {
+		printf("Test intal_binsearch and probably intal_sort PASSED\n");
+	} else {
+		printf("Test intal_binsearch and probably intal_sort FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 1);
+	}
+	
 	
 	
 	
