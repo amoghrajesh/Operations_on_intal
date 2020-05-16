@@ -513,7 +513,8 @@ static void merge(char **arr, int l, int m, int r)
     int n1 = m - l + 1; 
     int n2 =  r - m; 
    
-    char L[n1][10001],R[n2][10001] ;
+	//to store all the strin
+    char L[n1][10001],R[n2][10001];
     for (i = 0; i < n1; i++) 
     {
         strcpy(L[i],arr[l + i]); 

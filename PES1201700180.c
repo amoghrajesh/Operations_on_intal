@@ -299,7 +299,15 @@ static void merge(char** arr, int l, int m, int r)
     int i, j, k; 
     int n1 = m - l +1 ; 
     int n2 =  r - m; 
-    char L[n1][1001], R[n2][1001]; 
+	char **L = (char**)malloc(n1 * sizeof(char*));
+	for(int i = 0; i < n1; i++) {
+		L[i] = (char*) malloc(1001 * sizeof(char));
+	}
+	char **R = (char**)malloc(n2 * sizeof(char*));
+	for(int i = 0; i < n2; i++) {
+		R[i] = (char*) malloc(1001 * sizeof(char));
+	}
+	
 
     for (i = 0; i < n1; i++) 
         strcpy(L[i],arr[l + i]); 
@@ -342,8 +350,6 @@ static void merge(char** arr, int l, int m, int r)
         k++; 
     } 
 } 
-
-
 
 static void mergeSort(char** arr,int l,int r)
 {
@@ -581,7 +587,81 @@ char* intal_gcd(const char* intal1, const char* intal2)
 	
 }
 
+static int min(int a,int b){
+	if(a<b){
+		return a;
+	}
+	else{
+		return b;
+	}
+}
 
+char* intal_bincoeff(unsigned int n, unsigned int k)
+{
+	
+	//k
+	char** C=(char**) malloc((k+1) * sizeof(char*));
+	for(int i=0;i<=k;i++){
+		C[i] = (char*) malloc(1001 * sizeof(char));
+		strcpy(C[i],"0");
+	}
+	
+	//nC0=1
+    strcpy(C[0],"1"); 
+  
+    for (int i = 1; i <= n; i++) 
+    { 
+        for (int j = min(i, k); j > 0; j--) 
+            C[j] = intal_add(C[j],C[j-1]);
+    } 
+    return C[k]; 
+	
+}
+
+char* coin_row_problem(char **arr, int n)
+{
+	
+	char** DP=(char**) malloc((n+1) * sizeof(char*));
+	for(int i = 0; i < n; i++) {
+		DP[i] = (char*) malloc(1001 * sizeof(char));
+	}
+	if(n==0){
+		return "0";
+	}
+	if(n==1){
+		return arr[0];
+	}
+	
+	strcpy(DP[0],"0");
+	strcpy(DP[1],arr[0]);
+	int compare = intal_compare(arr[0],arr[1]);
+	if(compare==1){
+
+		DP[2]=arr[0];
+	}
+	else{
+		DP[2]=arr[1];
+	}
+	
+	
+	
+	char* alternate= (char*) malloc(1001 * sizeof(char));
+	char* last=(char*) malloc(1001 * sizeof(char));
+	for(int i=3;i<=n;i++){
+		alternate = intal_add(DP[i],DP[i-2]);
+		strcpy(last,DP[i-1]);
+		compare = intal_compare(alternate,last);
+		if(compare==1){
+			strcpy(DP[i],alternate);
+		}
+		else{
+			strcpy(DP[i],last);
+		}
+	}
+	return DP[n];
+	
+	
+}
 
 
 int main()
@@ -730,77 +810,77 @@ result1 = intal_factorial(30);
 		free(result1);
 	}
 
-	result1 = intal_pow("10", 999);
-	if(!result1) {
-		printf("Test intal_pow FAILED.\n");
-	} else {
-		if(0 == strcmp(result1, a[10])) {
-			printf("Test intal_pow PASSED\n");
-		} else {
-			printf("Test intal_pow FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, a[10]);
-		}
-		free(result1);
-	}
-
-	result1 = intal_pow("2", 3000);
-	if(!result1) {
-		printf("Test intal_pow FAILED.\n");
-	} else {
-		if(0 == strcmp(result1, a[11])) {
-			printf("Test intal_pow PASSED\n");
-		} else {
-			printf("Test intal_pow FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, a[11]);
-		}
-		free(result1);
-	}
-	
-	result1 = intal_mod(a[3], a[4]);
-	if(!result1) {
-		printf("Test intal_mod FAILED.\n");
-	} else {
-		if(0 == strcmp(result1, "1")) {
-			printf("Test intal_mod PASSED\n");
-		} else {
-			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "1");
-		}
-		free(result1);
-	}
-
-	result1 = intal_mod("978", "5");
-	if(!result1) {
-		printf("Test intal_mod FAILED.\n");
-	} else {
-		if(0 == strcmp(result1, "3")) {
-			printf("Test intal_mod PASSED\n");
-		} else {
-			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "3");
-		}
-		free(result1);
-	}
-
-	result1 = intal_mod(a[0], a[5]);
-	if(!result1) {
-		printf("Test intal_mod FAILED.\n");
-	} else {
-		if(0 == strcmp(result1, "9")) {
-			printf("Test intal_mod PASSED\n");
-		} else {
-			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "9");
-		}
-		free(result1);
-	}
-
-	result1 = intal_gcd(a[0], a[5]);
-	if(!result1) {
-		printf("Test intal_gcd FAILED.\n");
-	} else {
-		if(0 == strcmp(result1, "3")) {
-			printf("Test intal_gcd PASSED\n");
-		} else {
-			printf("Test intal_gcd FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "3");
-		}
-		free(result1);
-	}
+//	result1 = intal_pow("10", 999);
+//	if(!result1) {
+//		printf("Test intal_pow FAILED.\n");
+//	} else {
+//		if(0 == strcmp(result1, a[10])) {
+//			printf("Test intal_pow PASSED\n");
+//		} else {
+//			printf("Test intal_pow FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, a[10]);
+//		}
+//		free(result1);
+//	}
+//
+//	result1 = intal_pow("2", 3000);
+//	if(!result1) {
+//		printf("Test intal_pow FAILED.\n");
+//	} else {
+//		if(0 == strcmp(result1, a[11])) {
+//			printf("Test intal_pow PASSED\n");
+//		} else {
+//			printf("Test intal_pow FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, a[11]);
+//		}
+//		free(result1);
+//	}
+//	
+//	result1 = intal_mod(a[3], a[4]);
+//	if(!result1) {
+//		printf("Test intal_mod FAILED.\n");
+//	} else {
+//		if(0 == strcmp(result1, "1")) {
+//			printf("Test intal_mod PASSED\n");
+//		} else {
+//			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "1");
+//		}
+//		free(result1);
+//	}
+//
+//	result1 = intal_mod("978", "5");
+//	if(!result1) {
+//		printf("Test intal_mod FAILED.\n");
+//	} else {
+//		if(0 == strcmp(result1, "3")) {
+//			printf("Test intal_mod PASSED\n");
+//		} else {
+//			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "3");
+//		}
+//		free(result1);
+//	}
+//
+//	result1 = intal_mod(a[0], a[5]);
+//	if(!result1) {
+//		printf("Test intal_mod FAILED.\n");
+//	} else {
+//		if(0 == strcmp(result1, "9")) {
+//			printf("Test intal_mod PASSED\n");
+//		} else {
+//			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "9");
+//		}
+//		free(result1);
+//	}
+//
+//	result1 = intal_gcd(a[0], a[5]);
+//	if(!result1) {
+//		printf("Test intal_gcd FAILED.\n");
+//	} else {
+//		if(0 == strcmp(result1, "3")) {
+//			printf("Test intal_gcd PASSED\n");
+//		} else {
+//			printf("Test intal_gcd FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "3");
+//		}
+//		free(result1);
+//	}
 	
 	intal_sort(a, 10);
 	index1 = intal_binsearch(a, 10, "3");
@@ -810,12 +890,25 @@ result1 = intal_factorial(30);
 		printf("Test intal_binsearch and probably intal_sort FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 1);
 	}
 	
+	result1 = intal_bincoeff(10,8);
+	if(!result1) {
+		printf("Test intal_bincoeff FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "45")) {
+			printf("Test intal_bincoeff PASSED\n");
+		} else {
+			printf("Test intal_bincoeff FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "45");
+		}
+		free(result1);
+	}
+		
 	
-	
-	
-	
-
-	
+	result1 = coin_row_problem(a+1, 2);
+	if(0 == strcmp("12", result1)) {
+		printf("Test coin_row_problem PASSED\n");
+	} else {
+		printf("Test coin_row_problem FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "12");
+	}
 	
 	
 	
