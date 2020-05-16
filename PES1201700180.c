@@ -1,24 +1,20 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#define lld long long int
 #define atoa(x) #x
 
 static char* reverse(char *str,int n)
 {
-	char s1;
+	char temp;
 	for(int i=0;i<n/2;i++)
 	{
-		s1=str[i];
+		temp=str[i];
 		str[i]=str[n-i-1];
-		str[n-i-1]=s1;
+		str[n-i-1]=temp;
 	}
    	str[n]='\0';
 	return str;
 }
-
-
-
 
 
 char* intal_add(const char* intal1, const char* intal2){
