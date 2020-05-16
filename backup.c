@@ -17,8 +17,193 @@ static char* reverse(char *str,int n)
 }
 
 
+//char* intal_add(const char* intal1, const char* intal2)
+//{
+//
+//	char *str1,*str2,*s3;
+//	str1=(char*)malloc(sizeof(char)*(strlen(intal1)+1));
+//    str2=(char*)malloc(sizeof(char)*(strlen(intal2)+1));
+//    strcpy(str1,intal1);
+//    strcpy(str2,intal2);
+// 
+//    lld length1=strlen(intal1);
+//    lld length2=strlen(intal2);
+//    str1=reverse(str1,length1);
+//    str2=reverse(str2,length2);
+//
+//
+//    if(length1 > length2)
+//    {
+//    	s3=(char*)malloc(sizeof(char)*(length1+2));
+//    }
+//    else
+//    {
+//    	s3=(char*)malloc(sizeof(char)*(length2+2));
+//    }
+//    lld sum,carry,j,max,i,min;
+//    carry=0;
+//    j=0;
+//    i=0;
+//    if(length1<length2)
+//    {
+//        max=length2;
+//        min=length1;
+//    }
+//    else
+//    {
+//        max=length1;
+//        min=length2;
+//    }
+//    
+//    
+//    while(i<min)
+//    {
+//        if(i==0)
+//        {
+//            sum=str1[i]-'0' + str2[i]-'0';
+//            carry=sum/10;
+//            sum=sum%10;
+//        }
+//        else
+//        {
+//            sum=str1[i]-'0' + str2[i]-'0' +carry;
+//            carry=sum/10;
+//            sum=sum%10;
+//        }
+//        s3[j++]=sum+'0';
+//        i=i+1;
+//        
+//    }
+//    
+//    if(max==length1)
+//    {
+//        while(i<length1)
+//        {
+//            sum=str1[i]-'0'+carry;
+//            carry=sum/10;
+//            sum=sum%10;
+//            i=i+1;
+//            s3[j++]=sum+'0';
+//        }
+//    }
+//    else if(max==length2)
+//    {
+//        while(i<length2)
+//        {
+//            sum=str2[i]-'0'+carry;
+//            carry=sum/10;
+//            sum=sum%10;
+//            i=i+1;
+//            s3[j++]=sum+'0';
+//        }
+//    }
+//    if(carry!=0)
+//    {
+//        s3[j++]=carry+'0';
+//    }
+//    s3[j]='\0';
+//    s3=reverse(s3,strlen(s3));
+//    //s3=removeleadingzeros(s3);
+//    free(str1);
+//    free(str2);
+//    return s3;
+//
+//}
+
+
 char* intal_add(const char* intal1, const char* intal2){
-	
+	//char* intal_add(const char* intal1, const char* intal2)
+//{
+//
+//	char *str1,*str2,*s3;
+//	str1=(char*)malloc(sizeof(char)*(strlen(intal1)+1));
+//    str2=(char*)malloc(sizeof(char)*(strlen(intal2)+1));
+//    strcpy(str1,intal1);
+//    strcpy(str2,intal2);
+// 
+//    lld length1=strlen(intal1);
+//    lld length2=strlen(intal2);
+//    str1=reverse(str1,length1);
+//    str2=reverse(str2,length2);
+//
+//
+//    if(length1 > length2)
+//    {
+//    	s3=(char*)malloc(sizeof(char)*(length1+2));
+//    }
+//    else
+//    {
+//    	s3=(char*)malloc(sizeof(char)*(length2+2));
+//    }
+//    lld sum,carry,j,max,i,min;
+//    carry=0;
+//    j=0;
+//    i=0;
+//    if(length1<length2)
+//    {
+//        max=length2;
+//        min=length1;
+//    }
+//    else
+//    {
+//        max=length1;
+//        min=length2;
+//    }
+//    
+//    
+//    while(i<min)
+//    {
+//        if(i==0)
+//        {
+//            sum=str1[i]-'0' + str2[i]-'0';
+//            carry=sum/10;
+//            sum=sum%10;
+//        }
+//        else
+//        {
+//            sum=str1[i]-'0' + str2[i]-'0' +carry;
+//            carry=sum/10;
+//            sum=sum%10;
+//        }
+//        s3[j++]=sum+'0';
+//        i=i+1;
+//        
+//    }
+//    
+//    if(max==length1)
+//    {
+//        while(i<length1)
+//        {
+//            sum=str1[i]-'0'+carry;
+//            carry=sum/10;
+//            sum=sum%10;
+//            i=i+1;
+//            s3[j++]=sum+'0';
+//        }
+//    }
+//    else if(max==length2)
+//    {
+//        while(i<length2)
+//        {
+//            sum=str2[i]-'0'+carry;
+//            carry=sum/10;
+//            sum=sum%10;
+//            i=i+1;
+//            s3[j++]=sum+'0';
+//        }
+//    }
+//    if(carry!=0)
+//    {
+//        s3[j++]=carry+'0';
+//    }
+//    s3[j]='\0';
+//    s3=reverse(s3,strlen(s3));
+//    //s3=removeleadingzeros(s3);
+//    free(str1);
+//    free(str2);
+//    return s3;
+//
+//}
 	int n1 = strlen(intal1);
 	int n2 = strlen(intal2);
 	char* s3;
@@ -46,7 +231,8 @@ char* intal_add(const char* intal1, const char* intal2){
 		bigger=2;
 	}
 	else{
-		s3=(char*)malloc(sizeof(char)*(n2+1));
+		s3=(char*)malloc(sizeof(char)*(n2+2));
+		min = n1;
 	}
 	
 	char* s1 = (char*)malloc(sizeof(char)*(n1+1));
@@ -60,7 +246,7 @@ char* intal_add(const char* intal1, const char* intal2){
 	{
 		sum = (s1[i] - '0') + (s2[i] - '0') + carry;
 		s3[j++]= sum % 10 + '0';
-		carry = sum/10;
+		carry = sum / 10;
 		i++;
 		
 	}
@@ -68,22 +254,28 @@ char* intal_add(const char* intal1, const char* intal2){
 	if(bigger!=0){
 		if(bigger==1){
 			while(i<max){
-				s3[j++] =( (s1[i] - '0') + carry )+ '0';
-				carry=0;
+				sum = s1[i] - '0' + carry;
+				s3[j++]=sum%10 + '0';
+				carry=sum/10;
 				i++;
 			}
 		}
 		else{
 			while(i<max){
-				s3[j++] =( (s2[i] - '0') + carry )+ '0';
-				carry=0;
+				sum = s2[i] - '0' + carry;
+				s3[j++]=sum % 10 + '0';
+				carry=sum / 10;
 				i++;
 			}
 		}
 	}
 	
+	if(carry!=0){
+		s3[j++]=carry + '0';
+	}
+	
 	s3[j]='\0';
-	reverse(s3,max);
+	reverse(s3,strlen(s3));
 	return s3;
 
 	
@@ -287,47 +479,47 @@ int main()
 	strcpy(a[11], "1230231922161117176931558813276752514640713895736833715766118029160058800614672948775360067838593459582429649254051804908512884180898236823585082482065348331234959350355845017413023320111360666922624728239756880416434478315693675013413090757208690376793296658810662941824493488451726505303712916005346747908623702673480919353936813105736620402352744776903840477883651100322409301983488363802930540482487909763484098253940728685132044408863734754271212592471778643949486688511721051561970432780747454823776808464180697103083861812184348565522740195796682622205511845512080552010310050255801589349645928001133745474220715013683413907542779063759833876101354235184245096670042160720629411581502371248008430447184842098610320580417992206662247328722122088513643683907670360209162653670641130936997002170500675501374723998766005827579300723253474890612250135171889174899079911291512399773872178519018229989376");
 	char *result1;
 	int index1;
-
-	result1 = intal_add(a[0], a[1]);
-	if(!result1) {
-		printf("Test intal_add FAILED.\n");
-	} else {
-		if(0 == strcmp(result1, "543216666666666666666666666666")) {
-			printf("Test intal_add PASSED\n");
-		} else {
-			printf("Test intal_add FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "543216666666666666666666666666");
-		}
-		free(result1);
-	}
-
-	index1 = intal_compare(a[0], a[1]);
-	if(-1 == index1) {
-		printf("Test intal_compare PASSED\n");
-	} else {
-		printf("Test intal_compare FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, -1);
-	}
-
-	result1 = intal_diff(a[0], a[1]);
-	if(!result1) {
-		printf("Test intal_diff FAILED.\n");
-	} else {
-		if(0 == strcmp(result1, "543214197641976419764197641976")) {
-			printf("Test intal_diff PASSED\n");
-		} else {
-			printf("Test intal_diff FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "543214197641976419764197641976");
-		}
-		free(result1);
-	}
-
-	result1 = intal_multiply(a[8], a[5]);
-	if(!result1) {
-		printf("Test intal_multiply FAILED.\n");
-	} else {
-		if(0 == strcmp(result1, "65185851858518585185851852")) {
-			printf("Test intal_multiply PASSED\n");
-		} else {
-			printf("Test intal_multiply FAILED.\n.Your answer: %s\nExpected answer: %s\n", result1, "65185851858518585185851852");
-		}
-		free(result1);
-	}
+ 	printf("addition = %s \n",intal_add("9999","1"));
+//	result1 = intal_add(a[0], a[1]);
+//	if(!result1) {
+//		printf("Test intal_add FAILED.\n");
+//	} else {
+//		if(0 == strcmp(result1, "543216666666666666666666666666")) {
+//			printf("Test intal_add PASSED\n");
+//		} else {
+//			printf("Test intal_add FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "543216666666666666666666666666");
+//		}
+//		free(result1);
+//	}
+//
+//	index1 = intal_compare(a[0], a[1]);
+//	if(-1 == index1) {
+//		printf("Test intal_compare PASSED\n");
+//	} else {
+//		printf("Test intal_compare FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, -1);
+//	}
+//
+//	result1 = intal_diff(a[0], a[1]);
+//	if(!result1) {
+//		printf("Test intal_diff FAILED.\n");
+//	} else {
+//		if(0 == strcmp(result1, "543214197641976419764197641976")) {
+//			printf("Test intal_diff PASSED\n");
+//		} else {
+//			printf("Test intal_diff FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "543214197641976419764197641976");
+//		}
+//		free(result1);
+//	}
+//
+//	result1 = intal_multiply(a[8], a[5]);
+//	if(!result1) {
+//		printf("Test intal_multiply FAILED.\n");
+//	} else {
+//		if(0 == strcmp(result1, "65185851858518585185851852")) {
+//			printf("Test intal_multiply PASSED\n");
+//		} else {
+//			printf("Test intal_multiply FAILED.\n.Your answer: %s\nExpected answer: %s\n", result1, "65185851858518585185851852");
+//		}
+//		free(result1);
+//	}
 }

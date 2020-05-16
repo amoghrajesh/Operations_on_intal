@@ -1,7 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-
+#define lld long long int
+#define atoa(x) #x
 
 static char* reverse(char *str,int n)
 {
@@ -15,6 +16,9 @@ static char* reverse(char *str,int n)
    	str[n]='\0';
 	return str;
 }
+
+
+
 
 
 char* intal_add(const char* intal1, const char* intal2){
@@ -46,7 +50,8 @@ char* intal_add(const char* intal1, const char* intal2){
 		bigger=2;
 	}
 	else{
-		s3=(char*)malloc(sizeof(char)*(n2+1));
+		s3=(char*)malloc(sizeof(char)*(n2+2));
+		min = n1;
 	}
 	
 	char* s1 = (char*)malloc(sizeof(char)*(n1+1));
@@ -60,7 +65,7 @@ char* intal_add(const char* intal1, const char* intal2){
 	{
 		sum = (s1[i] - '0') + (s2[i] - '0') + carry;
 		s3[j++]= sum % 10 + '0';
-		carry = sum/10;
+		carry = sum / 10;
 		i++;
 		
 	}
@@ -68,27 +73,33 @@ char* intal_add(const char* intal1, const char* intal2){
 	if(bigger!=0){
 		if(bigger==1){
 			while(i<max){
-				s3[j++] =( (s1[i] - '0') + carry )+ '0';
-				carry=0;
+				sum = s1[i] - '0' + carry;
+				s3[j++]=sum%10 + '0';
+				carry=sum/10;
 				i++;
 			}
 		}
 		else{
 			while(i<max){
-				s3[j++] =( (s2[i] - '0') + carry )+ '0';
-				carry=0;
+				sum = s2[i] - '0' + carry;
+				s3[j++]=sum % 10 + '0';
+				carry=sum / 10;
 				i++;
 			}
 		}
 	}
 	
+	if(carry!=0){
+		s3[j++]=carry + '0';
+	}
+	
 	s3[j]='\0';
-	reverse(s3,max);
+	reverse(s3,strlen(s3));
+	free(s1);
+	free(s2);
 	return s3;
 
-	
 }
-
 
 // Returns the comparison value of two intals.
 // Returns 0 when both are equal.
@@ -175,7 +186,7 @@ char* intal_diff(const char* intal1, const char* intal2)
         s3[j++]=sub+'0';
     }
     
-    for(long int i=n2;i<n1;i++)
+    for(int i=n2;i<n1;i++)
     {
         int sub = ((s1[i]-'0') - carry); 
         if (sub < 0) 
@@ -192,9 +203,20 @@ char* intal_diff(const char* intal1, const char* intal2)
         
     }
     s3[j]='\0';
-    
     s3=reverse(s3,strlen(s3));
-	return s3;
+	int n3=strlen(s3);
+	char* s4=(char*)malloc(sizeof(char)*(n3+1));
+	i=0;
+	while(s3[i]=='0'){
+		i++;
+	}
+	j=0;
+	while(i<n3){
+		s4[j++]=s3[i++];		
+	}
+	s4[j]='\0';
+	return s4;
+
 }
 
 char* intal_multiply(const char* intal1, const char* intal2){
@@ -265,9 +287,251 @@ char* intal_multiply(const char* intal1, const char* intal2){
 }
 
 
+void swap(char* str1,char* str2){
+	char *temp = str1; 
+  	str1 = str2; 
+  	str2 = temp;
+}
+
+
+void intal_sort(char **arr, int n)
+{
+	int min=0;
+	for(int i=0;i<n-1;i++){
+   		min= i; 
+        for (int j = i+1; j < n; j++){
+			if(intal_compare(arr[i],arr[j])==-1){
+				min=j;
+			} 
+		}
+		swap(arr[i],arr[min]);
+          
+	}
+}
+
+int intal_min(char **arr, int n){
+	int min=0;
+	for(int i=1;i<n;i++){
+		
+		if(intal_compare(arr[i],arr[min])==-1){
+			min=i;
+		}
+	}
+	return min;
+}
+
+int intal_max(char **arr, int n){
+	
+	int max=0;
+	for(int i=1;i<n;i++){
+		if(intal_compare(arr[i],arr[max])==1){
+			max=i;
+		}
+	}
+	return max;
+	
+}
+//generates fibonacci
+char* intal_fibonacci(unsigned int n)
+{
+	
+	char* a=(char*)malloc(sizeof(char)*1001);
+	char* b=(char*)malloc(sizeof(char)*1001);
+	char* c=(char*)malloc(sizeof(char)*1001);
+	
+	strcpy(a,"0");
+	strcpy(b,"1");
+	if(n==0){
+		return a;
+	}
+	if(n==1){
+		return b;
+	}
+	if(n==2){
+		return "2";
+	}
+	
+	int i=3;
+	while(i<=n){
+		c=intal_add(a,b);
+		a=b;
+		b=c;
+		i++;
+	}
+	c=intal_add(a,b);
+	free(a);
+	free(b);
+	return c;
+	
+	
+	
+}
+
+
+int intal_search(char **arr, int n, const char* key)
+{
+	int i=0;
+	while(i<n){
+		if(intal_compare(arr[i],key)==0){
+			return i;
+		}
+		i++;
+	}
+	return -1;
+}
+
+
+//arr is sorted
+int intal_binsearch(char **arr, int n, const char* key)
+{
+	
+	int l=0;
+	int r=n-1;
+	int mid=0;
+	int compare=0;
+	while(l<r){
+		mid = l +(r-l)/2;
+		compare=intal_compare(arr[mid],key);
+		if(compare==0){
+			return mid;
+		}
+		else if(compare>0){
+			r=mid-1;
+		}
+		else{
+			l=mid+1;
+		}
+		
+	}
+	return -1;
+	
+}
+
+char* intal_factorial(unsigned int n){
+
+	char* f =(char*)malloc(sizeof(char)*1001);
+	itoa(n,f,10);
+	
+	char* res=(char*)malloc(sizeof(char)*1001);
+	strcpy(res,"1");
+	
+	while(atoi(f)!=1){
+		res = intal_multiply(res,f);
+		f=intal_diff(f,"1");		
+	}
+	free(f);
+	return res;
+
+}
+
+
+//return intal^n
+char* intal_pow(const char* intal1, unsigned int n)
+{
+	
+	if(strcmp(intal1,"0")==0){
+		return "0";
+	}
+	int half1=0;
+	int half2=0;
+	if(n%2==0){
+		half1 = n/2;
+		half2=0;
+	}
+	else{
+		half1 = n/2;
+		half2 = 1;
+	}
+	
+	char* s1 =(char*)malloc(sizeof(char)*1001);
+	strcpy(s1,intal1);
+	
+	char* temp=(char*)malloc(sizeof(char)*1001);;
+	strcpy(temp,"1");
+
+
+	for(int i=0;i<half1;i++){
+		temp = intal_multiply(s1,temp);
+		temp = intal_multiply(s1,temp);
+	}
+	
+	if(half2){
+		temp = intal_multiply(s1,temp);
+	}
+	
+	
+	free(s1);
+	return temp;
+		
+	
+	
+}
+
+char* intal_mod(const char* intal1, const char* intal2)
+{
+	char* n =(char*)malloc(sizeof(char)*1001);
+	char* m =(char*)malloc(sizeof(char)*1001);
+	strcpy(n,intal1);
+	strcpy(m,intal2);
+	
+	int flag=0;
+	char* res =(char*)malloc(sizeof(char)*1001);
+	strcpy(res,intal1);
+	char* temp =(char*)malloc(sizeof(char)*1001);
+
+	while(intal_compare(res,m)!=-1){
+		strcpy(temp,m);
+		while(intal_compare(temp,res)==-1){
+			temp=intal_multiply(temp,"2");
+		}
+		res = intal_diff(temp,res);
+		flag+=1;
+		flag=flag%2;
+	}
+	
+	if(intal_compare(res,"0")==0){
+		return 0;
+	}
+	if(flag==1){
+		return intal_diff(m,res);
+	}
+	free(n);
+	free(m);
+	free(temp);
+	return res;
+	
+	
+}
+
+char* intal_gcd(const char* intal1, const char* intal2)
+{
+	
+	char* a =(char*)malloc(sizeof(char)*1001);
+	strcpy(a,intal1);
+	
+	char* b =(char*)malloc(sizeof(char)*1001);
+	strcpy(b,intal2);
+	
+	char* c =(char*)malloc(sizeof(char)*1001);
+	//euclid's algorithm
+	while(atoi(b)!=0){
+		c = intal_mod(a,b);
+		a=b;
+		b=c;
+	}
+	free(b);
+	free(c);
+	return a;
+	
+	
+}
+
+
+
 
 int main()
-{int n = 12;
+{
+	int n = 12;
 	char **a = (char**) malloc(n * sizeof(char*));
 	for(int i = 0; i < n; i++) {
 		a[i] = (char*) malloc(1001 * sizeof(char));
@@ -330,4 +594,165 @@ int main()
 		}
 		free(result1);
 	}
+	index1 = intal_max(a, 10);
+	if(6 == index1) {
+		printf("Test intal_max PASSED\n");
+	} else {
+		printf("Test intal_max FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 6);
+	}
+
+	index1 = intal_min(a, 10);
+	if(2 == index1) {
+		printf("Test intal_min PASSED\n");
+	} else {
+		printf("Test intal_min FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 2);
+	}
+
+	index1 = intal_search(a, 10, a[7]);
+	if(6 == index1) {
+		printf("Test intal_search PASSED\n");
+	} else {
+		printf("Test intal_search FAILED.\nYour answer: %d\nExpected answer: %d\n", index1, 6);
+	}
+	
+	result1 = intal_fibonacci(3);
+	if(!result1) {
+		printf("Test intal_fibonacci FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "2")) {
+			printf("Test intal_fibonacci PASSED\n");
+		} else {
+			printf("Test intal_fibonacci FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "2");
+		}
+		free(result1);
+	}
+
+	result1 = intal_fibonacci(1000);
+	if(!result1) {
+		printf("Test intal_fibonacci FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "43466557686937456435688527675040625802564660517371780402481729089536555417949051890403879840079255169295922593080322634775209689623239873322471161642996440906533187938298969649928516003704476137795166849228875")) {
+			printf("Test intal_fibonacci PASSED\n");
+		} else {
+			printf("Test intal_fibonacci FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "43466557686937456435688527675040625802564660517371780402481729089536555417949051890403879840079255169295922593080322634775209689623239873322471161642996440906533187938298969649928516003704476137795166849228875");
+		}
+		free(result1);
+	}
+	
+result1 = intal_factorial(30);
+	if(!result1) {
+		printf("Test intal_factorial FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, a[6])) {
+			printf("Test intal_factorial PASSED\n");
+		} else {
+			printf("Test intal_factorial FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, a[6]);
+		}
+		free(result1);
+	}
+
+	result1 = intal_factorial(100);
+	if(!result1) {
+		printf("Test intal_factorial FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000")) {
+			printf("Test intal_factorial PASSED\n");
+		} else {
+			printf("Test intal_factorial FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000");
+		}
+		free(result1);
+	}
+	
+	result1 = intal_pow(a[5], 3);
+	if(!result1) {
+		printf("Test intal_pow FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "1728")) {
+			printf("Test intal_pow PASSED\n");
+		} else {
+			printf("Test intal_pow FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "1728");
+		}
+		free(result1);
+	}
+
+	result1 = intal_pow("10", 999);
+	if(!result1) {
+		printf("Test intal_pow FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, a[10])) {
+			printf("Test intal_pow PASSED\n");
+		} else {
+			printf("Test intal_pow FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, a[10]);
+		}
+		free(result1);
+	}
+
+	result1 = intal_pow("2", 3000);
+	if(!result1) {
+		printf("Test intal_pow FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, a[11])) {
+			printf("Test intal_pow PASSED\n");
+		} else {
+			printf("Test intal_pow FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, a[11]);
+		}
+		free(result1);
+	}
+	
+	result1 = intal_mod(a[3], a[4]);
+	if(!result1) {
+		printf("Test intal_mod FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "1")) {
+			printf("Test intal_mod PASSED\n");
+		} else {
+			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "1");
+		}
+		free(result1);
+	}
+
+	result1 = intal_mod("978", "5");
+	if(!result1) {
+		printf("Test intal_mod FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "3")) {
+			printf("Test intal_mod PASSED\n");
+		} else {
+			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "3");
+		}
+		free(result1);
+	}
+
+	result1 = intal_mod(a[0], a[5]);
+	if(!result1) {
+		printf("Test intal_mod FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "9")) {
+			printf("Test intal_mod PASSED\n");
+		} else {
+			printf("Test intal_mod FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "9");
+		}
+		free(result1);
+	}
+
+		result1 = intal_gcd(a[0], a[5]);
+	if(!result1) {
+		printf("Test intal_gcd FAILED.\n");
+	} else {
+		if(0 == strcmp(result1, "3")) {
+			printf("Test intal_gcd PASSED\n");
+		} else {
+			printf("Test intal_gcd FAILED.\nYour answer: %s\nExpected answer: %s\n", result1, "3");
+		}
+		free(result1);
+	}
+	
+	
+	
+	
+
+	
+	
+	
+	
 }
