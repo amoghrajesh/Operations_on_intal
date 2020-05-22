@@ -1,10 +1,11 @@
-Introduction
+Introduction:
 An intal is a non negative integer of arbitrary length, but in case of my implementation it has a limit of 1000 digits. Intal is stored as a null terminated string of ASCII format in a big endian format for convenience sake.
 
 The difference between this method of storing numbers and regular integers is the limit of storage. All integer datatypes have a limit within which the numbers must be present to store it in those datatypes. Intal is more like a custom datatype which can store data limitlessly and can include special characters with special meanings in order to maintain compression. Eg : We could use '1e07' as exponential raised to the power seven and have an internal conversion of it.
 
 Applications:
-In case of storing amount values in a column and need to maintain the commas in between the integer values (10,000) you can use string column, as integer ignores commas
+In case of storing amount values in a column and need to maintain the commas in between the integer values (10,000) you can use string column, as integer ignores commas.
+Storing in strings is convenient when we intend to transfer these intals across a network in a TCP connection which only allows transfer of strings / JSON objects.
 
 
 Approaches:
@@ -42,6 +43,12 @@ Approaches:
 
 Future Work:
 1) We could add the functionality of division which could be useful.
+2) Bitwise operations like AND, OR, NOT, XOR
+3) Factorization of intals
+
+If you had no restrictions, how would you implement a library to handle integers of arbitrary length?
+We could use an approach where we use an array to store individual digits of the intal and perform operations on it.
+An alternative would be to use a linked list as a storage mechanism for intal. Each digit of an intal could be a node of the linked list. We could also attach a field that could hold the sign of the number in the head node.
 
 
 
