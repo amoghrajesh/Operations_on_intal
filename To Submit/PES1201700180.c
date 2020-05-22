@@ -560,30 +560,6 @@ char* intal_pow(const char* intal1, unsigned int n)
 		
 }
 
-//char* intal_pow(const char* intal1, unsigned int n)
-//{
-//	char* temp;
-//	if(intal_compare(intal1,"0")==0){
-//		return "0";
-//	}
-//	if(n==0){
-//		return "1";
-//	}
-//	
-//	char* s1= (char*)malloc(sizeof(char)*1001);
-//	strcpy(s1, temp);
-//	
-//	temp = intal_pow(s1, n/2);
-//	if(n % 2==0){
-//		return intal_multiply(s1,s1);
-//	}
-//	else{
-//		return intal_multiply(s1, intal_multiply(temp,temp));
-//	}
-//}
-
-
-
 char* intal_mod(const char* intal1, const char* intal2)
 {
 	char* n =(char*)malloc(sizeof(char)*1001);
@@ -833,7 +809,7 @@ int main(int argc, char const *argv[]) {
 		}
 		free(result1);
 	}
-
+//
 	result1 = intal_pow(a[5], 3);
 	if(!result1) {
 		printf("Test intal_pow FAILED.\n");
